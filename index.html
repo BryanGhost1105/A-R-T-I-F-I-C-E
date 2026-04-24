@@ -1,0 +1,905 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>A R T I F I C E | Curatorial Elite</title>
+    <meta name="description"
+        content="ARTIFICE is an elite curatorial agency architecting physical and digital environments where contemporary art commands absolute attention.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
+    <!-- Using Instrument Sans as the primary font family -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        .menu-overlay {
+            clip-path: circle(0% at calc(100% - 4rem) 2.5rem);
+            transition: clip-path 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        .menu-overlay.active {
+            clip-path: circle(150% at calc(100% - 4rem) 2.5rem);
+        }
+
+        .menu-link {
+            opacity: 0;
+            transform: translateY(2rem);
+            transition: opacity 0.6s cubic-bezier(0.32, 0.72, 0, 1), transform 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+
+        .menu-overlay.active .menu-link {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-overlay.active .menu-link:nth-child(1) {
+            transition-delay: 0.15s;
+        }
+
+        .menu-overlay.active .menu-link:nth-child(2) {
+            transition-delay: 0.22s;
+        }
+
+        .menu-overlay.active .menu-link:nth-child(3) {
+            transition-delay: 0.29s;
+        }
+
+        .menu-overlay.active .menu-link:nth-child(4) {
+            transition-delay: 0.36s;
+        }
+
+        .menu-overlay.active .menu-link:nth-child(5) {
+            transition-delay: 0.43s;
+        }
+
+        .menu-overlay.active .menu-link:nth-child(6) {
+            transition-delay: 0.50s;
+        }
+
+        .menu-overlay.active .menu-link:nth-child(7) {
+            transition-delay: 0.57s;
+        }
+
+        /* Grain overlay */
+        .grain-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 128px 128px;
+        }
+
+        /* Smooth anchors */
+        a,
+        button {
+            transition: all 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+
+        a:active,
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Custom Animations */
+        @keyframes scrollLine {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            50% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(100%);
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="bg-[#f9fafb] text-zinc-950 antialiased overflow-x-hidden w-full max-w-full selection:bg-zinc-900 selection:text-white"
+    style="font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';">
+
+    <!-- GRAIN OVERLAY -->
+    <div class="grain-overlay"></div>
+
+    <!-- NAVIGATION (Liquid Glass Pill) -->
+    <nav class="fixed top-4 md:top-6 left-0 right-0 z-50 flex justify-center px-3 md:px-4 w-full pointer-events-none">
+        <div
+            class="pointer-events-auto flex items-center justify-between bg-white/40 backdrop-blur-3xl backdrop-brightness-125 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_20px_40px_-15px_rgba(0,0,0,0.1)] rounded-full px-5 md:px-8 py-3.5 md:py-4 w-full max-w-3xl lg:max-w-5xl border border-white/40 transition-all duration-500">
+            <a href="index.html"
+                class="text-[clamp(0.625rem,1vw,0.75rem)] tracking-[0.25rem] md:tracking-[0.4rem] uppercase font-medium text-zinc-950 hover:text-zinc-500 shrink-0">A
+                R T I F I C E</a>
+            <div
+                class="hidden lg:flex items-center gap-10 text-[10px] tracking-[0.2rem] uppercase font-medium text-zinc-800">
+                <a href="exhibitions.html" class="hover:text-zinc-950 transition-colors">Exhibitions</a>
+                <a href="artists.html" class="hover:text-zinc-950 transition-colors">Artists</a>
+                <a href="archive.html" class="hover:text-zinc-950 transition-colors">Archive</a>
+                <a href="manifesto.html" class="hover:text-zinc-950 transition-colors">Manifesto</a>
+                <a href="initiate.html"
+                    class="hover:text-zinc-950 transition-colors border-l border-zinc-200 pl-10">Initiate</a>
+            </div>
+            <button id="menu-toggle"
+                class="lg:hidden text-[clamp(0.625rem,1vw,0.75rem)] tracking-widest uppercase font-medium border-b border-zinc-950 pb-0.5 hover:text-zinc-500 hover:border-zinc-500">Menu</button>
+        </div>
+    </nav>
+
+    <!-- FULLSCREEN MENU OVERLAY -->
+    <div id="menu-overlay"
+        class="menu-overlay fixed inset-0 z-[60] bg-zinc-950 flex items-center justify-center pointer-events-none">
+        <button id="menu-close"
+            class="absolute top-8 right-8 text-white/70 hover:text-white text-xs tracking-widest uppercase font-medium border-b border-white/30 pb-0.5 transition-colors">Close</button>
+        <div class="flex flex-col items-center gap-6">
+            <a href="index.html"
+                class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Home</a>
+            <a href="exhibitions.html"
+                class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Exhibitions</a>
+            <a href="artists.html"
+                class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Artists</a>
+            <a href="archive.html"
+                class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Archive</a>
+            <a href="manifesto.html"
+                class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Manifesto</a>
+            <a href="initiate.html"
+                class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Initiate</a>
+        </div>
+        <div class="absolute bottom-12 text-white/30 text-xs tracking-widest uppercase">© 2026 Artifice Gallery Ltd.
+        </div>
+    </div>
+
+    <main class="w-full max-w-full overflow-x-hidden">
+
+        <!-- SECTION 1: HERO (Cinematic Architecture) -->
+        <section class="relative min-h-[100dvh] max-h-[120vh] w-full flex flex-col overflow-hidden bg-[#f9fafb]">
+
+            <!-- GRAIN OVERLAY -->
+            <div class="grain-overlay"></div>
+
+            <!-- Background Atmosphere -->
+            <div class="absolute inset-0 z-0 bg-[#f9fafb]">
+                <img src="gallery  assets/Whisk_79f8130197d589fa8404c84ac668e9dddr.jpeg" alt="Atmosphere"
+                    class="hero-bg-parallax w-full h-full object-cover opacity-[0.02] grayscale mix-blend-multiply" />
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,transparent_20%,#f9fafb_100%)]">
+                </div>
+            </div>
+
+            <!-- NAV SPACER (35px gap from nav bottom: ~104px nav + 35px = ~139px) -->
+            <div class="h-[135px] md:h-[145px] w-full shrink-0 block pointer-events-none"></div>
+
+            <!-- Cinematic Container -->
+            <div
+                class="relative z-10 w-full max-w-[1400px] mx-auto px-8 md:px-16 flex flex-col md:flex-row items-center justify-between flex-grow pb-8 md:pb-12">
+
+                <!-- Left: Typography Core -->
+                <div class="w-full md:w-[55%] flex flex-col z-20">
+                    <div class="overflow-hidden mb-5 md:mb-8">
+                        <div class="hero-fade-up flex items-center gap-4">
+                            <div
+                                class="px-3 py-1 rounded-full border border-zinc-200/50 bg-white/50 backdrop-blur-md text-[9px] md:text-[10px] tracking-[0.25em] font-medium text-zinc-400 uppercase">
+                                Vanguard Curatorial
+                            </div>
+                            <span class="w-10 h-[1px] bg-zinc-200"></span>
+                        </div>
+                    </div>
+
+                    <h1
+                        class="text-[clamp(3.2rem,6.5vw,7.5rem)] leading-[0.85] tracking-tighter font-medium text-zinc-950 uppercase max-w-5xl">
+                        <span class="block overflow-hidden"><span
+                                class="block hero-title-line">Architecting</span></span>
+                        <div class="flex items-center gap-3 py-1 overflow-hidden">
+                            <span
+                                class="block hero-title-line font-light text-zinc-400 italic lowercase tracking-tight">absolute</span>
+                            <span
+                                class="inline-block w-24 md:w-36 h-12 md:h-16 rounded-full bg-cover bg-center grayscale contrast-125 border border-white/20 shadow-lg hero-title-line mt-1"
+                                style="background-image: url('gallery  assets/Whisk_0314d330e77421ab96e4d4d2886e3d1beg.png')"></span>
+                        </div>
+                        <span class="block overflow-hidden"><span class="block hero-title-line">Attention.</span></span>
+                    </h1>
+
+                    <p
+                        class="mt-8 md:mt-10 text-sm md:text-lg text-zinc-500 max-w-[40ch] font-light leading-relaxed hero-fade-up">
+                        We curate contemporary art exhibitions that transform spaces, making every masterpiece impossible to ignore.
+                    </p>
+
+                    <!-- Nested CTA Island Architecture -->
+                    <div class="mt-10 md:mt-14 flex flex-col sm:flex-row items-center gap-8 md:gap-10 hero-fade-up">
+                        <a href="initiate.html"
+                            class="group relative flex items-center bg-zinc-950 text-white rounded-full pr-1.5 pl-6 py-1.5 text-[9px] md:text-[10px] tracking-[0.3em] font-medium uppercase overflow-hidden transition-all duration-700 hover:scale-[0.98] w-full sm:w-auto shadow-xl">
+                            <span class="mr-6">Book a Private Viewing</span>
+                            <!-- Button-in-Button Trailing Icon -->
+                            <div
+                                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center transition-all duration-700 group-hover:bg-white group-hover:text-zinc-950">
+                                <iconify-icon icon="solar:arrow-right-up-linear"
+                                    class="text-base transition-transform duration-700 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></iconify-icon>
+                            </div>
+                        </a>
+                        <a href="archive.html"
+                            class="text-[9px] md:text-[10px] tracking-[0.3em] font-medium uppercase text-zinc-400 hover:text-zinc-950 transition-all duration-700 group flex items-center gap-4">
+                            <span
+                                class="border-b border-zinc-200 group-hover:border-zinc-950 pb-0.5 transition-colors">Explore
+                                Archive</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: High-Depth Spatial Composition (Double-Bezel) -->
+                <div class="hidden md:flex w-[40%] relative aspect-square max-h-[60vh] items-center justify-center">
+
+                    <!-- Depth Layer 1: Background Glass (Shifted further left and up for visibility) -->
+                    <div
+                        class="absolute left-[-18%] top-[5%] w-[65%] aspect-square rounded-[3rem] p-1.5 bg-zinc-100/30 border border-zinc-200/20 backdrop-blur-sm z-0 hero-image-depth-1">
+                        <div class="w-full h-full rounded-[calc(3rem-0.375rem)] overflow-hidden">
+                            <img src="gallery  assets/Japan (1).jpeg" alt="Depth Layer"
+                                class="w-full h-full object-cover grayscale opacity-60 hero-img-layer-depth-1" />
+                        </div>
+                    </div>
+
+                    <!-- Main Composition (Double-Bezel Architecture) -->
+                    <div
+                        class="relative z-10 w-full aspect-[16/11] p-2 bg-zinc-950/5 ring-1 ring-black/[0.03] rounded-[2.5rem] hero-image-main origin-bottom overflow-hidden shadow-sm">
+                        <div
+                            class="w-full h-full bg-white rounded-[calc(2.5rem-0.5rem)] overflow-hidden shadow-2xl relative">
+                            <img src="gallery  assets/Whisk_2c4efb145cd7b2e843244a3e5b995b9adr.jpeg" alt="Primary Asset"
+                                class="w-full h-full object-cover scale-[1.1] hero-img-layer-1" />
+                            <div class="absolute inset-0 shadow-[inset_0_0_80px_rgba(0,0,0,0.05)] pointer-events-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Extreme Foreground Accent (Shifted further right and down for visibility) -->
+                    <div
+                        class="absolute right-[-15%] bottom-[0%] w-[55%] aspect-square p-1.5 bg-white/40 ring-1 ring-black/[0.03] rounded-[2.5rem] backdrop-blur-md shadow-2xl z-20 hero-image-depth-2">
+                        <div class="w-full h-full bg-zinc-200 rounded-[calc(2.5rem-0.375rem)] overflow-hidden">
+                            <img src="gallery  assets/Whisk_42a58220d35d0f6bd354cd5b42513395dr.jpeg" alt="Accent"
+                                class="w-full h-full object-cover grayscale contrast-125 hero-img-layer-depth-2" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Bottom Progress Indicator (Relocated to avoid CTA collision) -->
+            <div class="absolute bottom-6 right-8 md:right-16 flex items-center gap-6 z-20 hero-fade-up">
+                <div class="h-px w-16 md:w-20 bg-zinc-100 relative overflow-hidden">
+                    <div
+                        class="absolute inset-0 bg-zinc-950 translate-x-[-100%] animate-[scrollLine_3s_infinite_ease-in-out]">
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1 text-right">
+                    <span class="text-[8px] md:text-[9px] tracking-[0.4em] font-medium text-zinc-400 uppercase">Vol.
+                        04</span>
+                    <span class="text-[9px] md:text-[10px] tracking-[0.2em] font-light text-zinc-300 uppercase">Spring
+                        Portfolio</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: INLINE TYPOGRAPHY MANIFESTO (Enhanced with Scroll Reveal) -->
+        <section
+            class="py-32 md:py-56 px-4 w-full max-w-7xl mx-auto flex items-center justify-center text-center overflow-hidden"
+            id="manifesto-section">
+            <h2
+                class="text-[clamp(1.8rem,4.5vw,4.8rem)] leading-[1.1] tracking-tighter font-normal max-w-5xl text-zinc-950 manifesto-text">
+                <span class="manifesto-row block overflow-hidden">
+                    <span class="inline-block">We design</span>
+                    <span
+                        class="manifesto-pill inline-block w-[clamp(4.5rem,10vw,10.5rem)] h-[clamp(2rem,4.5vw,4.8rem)] rounded-full align-middle mx-2 grayscale bg-cover bg-center shadow-inner"
+                        style="background-image: url('gallery  assets/Whisk_8b3ac7d4c82525189c644add63bf6834dr.jpeg')"></span>
+                    <span class="inline-block">spatial experiences that</span>
+                </span>
+                <span class="manifesto-row block overflow-hidden">
+                    <span class="inline-block">elevate modern
+                        <span
+                            class="manifesto-pill inline-block w-[clamp(4.5rem,10vw,10.5rem)] h-[clamp(2rem,4.5vw,4.8rem)] rounded-full align-middle mx-2 grayscale bg-cover bg-center shadow-inner"
+                            style="background-image: url('gallery  assets/Whisk_1f6f4702f4be3bb821c4cf467d671994dr.jpeg')"></span>
+                        </span>
+                    art</span>
+
+
+            </h2>
+        </section>
+
+        <!-- SECTION 3: INFINITE MARQUEE (Interest) -->
+        <section class="py-16 border-y border-zinc-200/50 bg-white overflow-hidden w-full flex items-center relative">
+            <div
+                class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none">
+            </div>
+            <div
+                class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none">
+            </div>
+
+            <div class="marquee-track flex gap-24 items-center whitespace-nowrap px-12">
+                <div class="text-xl md:text-3xl tracking-widest font-light text-zinc-400 uppercase">Guggenheim</div>
+                <iconify-icon icon="solar:star-fall-linear" class="text-zinc-300 text-xl"></iconify-icon>
+                <div class="text-xl md:text-3xl tracking-widest font-light text-zinc-400 uppercase">Pace Gallery</div>
+                <iconify-icon icon="solar:star-fall-linear" class="text-zinc-300 text-xl"></iconify-icon>
+                <div class="text-xl md:text-3xl tracking-widest font-light text-zinc-400 uppercase">Tate Modern</div>
+                <iconify-icon icon="solar:star-fall-linear" class="text-zinc-300 text-xl"></iconify-icon>
+                <div class="text-xl md:text-3xl tracking-widest font-light text-zinc-400 uppercase">Gagosian</div>
+                <iconify-icon icon="solar:star-fall-linear" class="text-zinc-300 text-xl"></iconify-icon>
+                <div class="text-xl md:text-3xl tracking-widest font-light text-zinc-400 uppercase">MoMA</div>
+                <iconify-icon icon="solar:star-fall-linear" class="text-zinc-300 text-xl"></iconify-icon>
+                <!-- Duplicate for loop -->
+                <div class="text-xl md:text-3xl tracking-widest font-light text-zinc-400 uppercase">Guggenheim</div>
+                <iconify-icon icon="solar:star-fall-linear" class="text-zinc-300 text-xl"></iconify-icon>
+                <div class="text-xl md:text-3xl tracking-widest font-light text-zinc-400 uppercase">Pace Gallery</div>
+                <iconify-icon icon="solar:star-fall-linear" class="text-zinc-300 text-xl"></iconify-icon>
+                <div class="text-xl md:text-3xl tracking-widest font-light text-zinc-400 uppercase">Tate Modern</div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: GAPLESS BENTO GRID (Interest) -->
+        <section class="py-32 md:py-48 px-4 w-full max-w-7xl mx-auto" id="curation">
+            <div class="mb-16">
+                <h3 class="text-3xl md:text-5xl tracking-tighter font-medium text-zinc-950">Curatorial Services</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 grid-flow-dense gap-6 w-full h-auto">
+
+                <!-- Main Feature: Global Exhibitions (Cinematic Video Slideshow) -->
+                <div
+                    class="md:col-span-2 md:row-span-2 group relative overflow-hidden rounded-[2.5rem] bg-zinc-950 border border-white/10 min-h-[500px] shadow-2xl">
+                    <!-- Slideshow Container -->
+                    <div class="absolute inset-0 z-0 bento-slideshow">
+                        <video autoplay loop muted playsinline
+                            class="absolute inset-0 w-full h-full object-cover grayscale-[0.8] opacity-50 transition-opacity duration-1000 scale-105 group-hover:scale-110">
+                            <source
+                                src="gallery  assets/video/6847119f22b5391772dbf625_684efaff0f6e64c09d96d807_freepik__animate-this-with-8k-loop__54302-transcode_hzy6io.mp4"
+                                type="video/mp4">
+                        </video>
+                        <img src="gallery  assets/Whisk_2c4efb145cd7b2e843244a3e5b995b9adr.jpeg"
+                            class="absolute inset-0 w-full h-full object-cover grayscale opacity-0 transition-opacity duration-1000 scale-105 group-hover:scale-110 bento-slide">
+                        <img src="gallery  assets/Japan (1).jpeg"
+                            class="absolute inset-0 w-full h-full object-cover grayscale opacity-0 transition-opacity duration-1000 scale-105 group-hover:scale-110 bento-slide">
+                    </div>
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent z-[1]">
+                    </div>
+
+                    <!-- Content -->
+                    <div
+                        class="absolute bottom-0 left-0 p-10 w-full z-10 transition-transform duration-700 group-hover:translate-y-[-10px]">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                            <span class="text-[10px] text-white/50 uppercase tracking-[0.3em]">Live Architecture</span>
+                        </div>
+                        <div class="text-white text-3xl md:text-4xl tracking-tight font-normal mb-4">Global Exhibitions
+                        </div>
+                        <p class="text-white/40 text-sm font-light max-w-sm leading-relaxed mb-6">End-to-end realization
+                            of monumental art installations across international borders.</p>
+                        <div
+                            class="inline-flex items-center gap-4 text-white text-xs tracking-widest uppercase font-medium group/link">
+                            <span
+                                class="border-b border-white/20 pb-1 group-hover/link:border-white transition-colors">See
+                                the circuit</span>
+                            <iconify-icon icon="solar:arrow-right-up-linear"
+                                class="text-lg translate-y-0.5"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Investment Strategy (High Fidelity Vertical) - Fits Gap in Column 3 -->
+                <div
+                    class="md:col-span-1 md:row-span-2 p-10 rounded-[2.5rem] bg-zinc-950 text-white flex flex-col justify-between group hover:shadow-2xl transition-all duration-700 overflow-hidden relative">
+                    <div class="absolute inset-0 opacity-10 mix-blend-overlay">
+                        <div class="w-full h-full bg-[radial-gradient(circle_at_20%_30%,#ffffff33_0%,transparent_50%)]">
+                        </div>
+                    </div>
+                    <div class="relative z-10">
+                        <iconify-icon icon="solar:chart-square-linear"
+                            class="text-5xl text-white/20 group-hover:text-white transition-colors duration-700 mb-8"></iconify-icon>
+                        <div class="text-2xl md:text-3xl tracking-tight font-medium mb-6">Art Advisory</div>
+                        <div class="flex flex-col gap-3">
+                            <span
+                                class="text-[10px] text-zinc-500 uppercase tracking-widest border border-white/10 rounded-full px-3 py-1 w-fit">Market
+                                Analysis</span>
+                            <span
+                                class="text-[10px] text-zinc-500 uppercase tracking-widest border border-white/10 rounded-full px-3 py-1 w-fit">Provenance</span>
+                            <span
+                                class="text-[10px] text-zinc-500 uppercase tracking-widest border border-white/10 rounded-full px-3 py-1 w-fit">Diversification</span>
+                        </div>
+                    </div>
+                    <div class="relative z-10 mt-auto">
+                        <button
+                            class="w-full py-4 rounded-full bg-white text-zinc-950 flex items-center justify-center gap-3 hover:bg-zinc-200 transition-colors">
+                            <span class="text-sm font-medium">Get Art Advisory</span>
+                            <iconify-icon icon="solar:arrow-right-linear" class="text-xl"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 4: Archive Management (Textured Image) - Column 4 -->
+                <div
+                    class="md:col-span-1 md:row-span-2 group relative overflow-hidden rounded-[2.5rem] bg-zinc-100 border border-zinc-200 shadow-sm flex flex-col justify-end p-10">
+                    <img src="gallery  assets/Whisk_5e13856c17ff0a39c184ae24e306a079dr.jpeg"
+                        class="absolute inset-0 w-full h-full object-cover grayscale opacity-20 contrast-125 group-hover:scale-110 transition-transform duration-[3s]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-zinc-100 via-transparent to-transparent z-[1]">
+                    </div>
+                    <div class="relative z-10">
+                        <iconify-icon icon="solar:folder-with-files-linear"
+                            class="text-3xl text-zinc-400 mb-6"></iconify-icon>
+                        <div class="text-zinc-950 text-xl tracking-tight font-medium mb-3">Archive Management</div>
+                        <p class="text-zinc-500 text-sm font-light leading-relaxed mb-4">Museum-grade conservation and
+                            digital cataloging.</p>
+                        <div class="h-1 w-0 bg-zinc-950 group-hover:w-full transition-all duration-700"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 5: PINNED GALLERY (Modern Editorial) -->
+        <section id="pin-container"
+            class="py-32 md:py-0 w-full max-w-7xl mx-auto flex flex-col md:flex-row relative px-4">
+
+            <!-- Fixed Left Column: Header (Centered on Desktop) -->
+            <div class="w-full md:w-2/5 md:h-screen flex flex-col justify-center mb-16 md:mb-0" id="pin-element">
+                <div class="max-w-sm">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-6 h-[1px] bg-zinc-950"></span>
+                        <span class="text-[10px] tracking-[0.4em] uppercase font-bold text-zinc-950">Curated
+                            Portfolio</span>
+                    </div>
+                    <h3
+                        class="text-[clamp(2.5rem,5vw,4.5rem)] tracking-tighter font-medium text-zinc-950 leading-[0.9] mb-8">
+                        Current <br> <span class="text-zinc-300 italic font-light">Collection</span>
+                    </h3>
+                    <p class="text-zinc-500 font-light text-base leading-relaxed mb-10">
+                        A rigorous selection of contemporary mastery. Each piece represents a tectonic shift in its
+                        respective medium.
+                    </p>
+                    <a href="archive.html"
+                        class="inline-flex items-center gap-3 text-xs tracking-widest uppercase font-semibold text-zinc-950 group">
+                        <span class="border-b-2 border-zinc-950 pb-1 group-hover:border-zinc-400 transition-colors">View
+                            Complete Archive</span>
+                        <div
+                            class="w-8 h-8 rounded-full border border-zinc-200 flex items-center justify-center group-hover:bg-zinc-950 group-hover:text-white transition-all">
+                            <iconify-icon icon="solar:arrow-right-up-linear" class="text-base"></iconify-icon>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scrolling Right Column: Images -->
+            <div class="w-full md:w-3/5 md:py-48 flex flex-col gap-32 md:gap-64">
+                <!-- Artwork 1 -->
+                <figure class="gsap-image origin-bottom m-0 relative">
+                    <div
+                        class="absolute -left-8 top-1/2 -translate-y-1/2 text-[10rem] font-bold text-zinc-50/80 z-0 select-none hidden md:block">
+                        01</div>
+                    <div
+                        class="w-full aspect-[4/5] md:aspect-[16/11] overflow-hidden rounded-[2.5rem] bg-zinc-200 shadow-2xl relative z-10">
+                        <img src="gallery  assets/Whisk_61a13135a0a5d79bd624c489351cae8cdr.jpeg" alt="Echoes of Silence"
+                            class="w-full h-full object-cover grayscale-[0.2] hover:scale-105 transition-transform duration-[2s]">
+                    </div>
+                    <figcaption
+                        class="mt-8 flex justify-between items-end border-t border-zinc-200/50 pt-6 relative z-10">
+                        <div>
+                            <div class="text-xl font-medium tracking-tight text-zinc-950 mb-1">Echoes of Silence</div>
+                            <div class="text-[10px] tracking-widest uppercase font-light text-zinc-400">Aurelia Vance
+                                <span class="mx-2">/</span> 2023
+                            </div>
+                        </div>
+                        <div class="text-[10px] font-mono tracking-widest text-zinc-300">01 — 04</div>
+                    </figcaption>
+                </figure>
+
+                <!-- Artwork 2 -->
+                <figure class="gsap-image origin-bottom m-0 relative">
+                    <div
+                        class="absolute -left-8 top-1/2 -translate-y-1/2 text-[10rem] font-bold text-zinc-50/80 z-0 select-none hidden md:block">
+                        02</div>
+                    <div
+                        class="w-full aspect-[4/5] md:aspect-[16/11] overflow-hidden rounded-[2.5rem] bg-zinc-100 shadow-2xl relative z-10">
+                        <img src="gallery  assets/Whisk_6d54c6c77f0626e8f9d4e09eab879509dr.jpeg" alt="Structural Decay"
+                            class="w-full h-full object-cover grayscale-[0.2] hover:scale-105 transition-transform duration-[2s]">
+                    </div>
+                    <figcaption
+                        class="mt-8 flex justify-between items-end border-t border-zinc-200/50 pt-6 relative z-10">
+                        <div>
+                            <div class="text-xl font-medium tracking-tight text-zinc-950 mb-1">Structural Decay</div>
+                            <div class="text-[10px] tracking-widest uppercase font-light text-zinc-400">Julian Thorne
+                                <span class="mx-2">/</span> 2026
+                            </div>
+                        </div>
+                        <div class="text-[10px] font-mono tracking-widest text-zinc-300">02 — 04</div>
+                    </figcaption>
+                </figure>
+
+                <!-- Artwork 3 -->
+                <figure class="gsap-image origin-bottom m-0 relative">
+                    <div
+                        class="absolute -left-8 top-1/2 -translate-y-1/2 text-[10rem] font-bold text-zinc-50/80 z-0 select-none hidden md:block">
+                        03</div>
+                    <div
+                        class="w-full aspect-[4/5] md:aspect-[16/11] overflow-hidden rounded-[2.5rem] bg-zinc-200 shadow-2xl relative z-10">
+                        <img src="gallery  assets/Whisk_665e1cfed977f68aae343f87a0d220b0dr.jpeg" alt="Velocity & Form"
+                            class="w-full h-full object-cover grayscale-[0.2] hover:scale-105 transition-transform duration-[2s]">
+                    </div>
+                    <figcaption
+                        class="mt-8 flex justify-between items-end border-t border-zinc-200/50 pt-6 relative z-10">
+                        <div>
+                            <div class="text-xl font-medium tracking-tight text-zinc-950 mb-1">Velocity & Form</div>
+                            <div class="text-[10px] tracking-widest uppercase font-light text-zinc-400">Elena Rostova
+                                <span class="mx-2">/</span> 2022
+                            </div>
+                        </div>
+                        <div class="text-[10px] font-mono tracking-widest text-zinc-300">03 — 04</div>
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- SECTION 6: HORIZONTAL ACCORDION (Exhibitions) -->
+        <section id="exhibitions" class="py-32 w-full max-w-[1400px] mx-auto px-4">
+            <h3 class="text-2xl font-medium tracking-tight mb-8 px-4">Upcoming Exhibitions</h3>
+            <div class="flex flex-col md:flex-row w-full h-[70vh] gap-2">
+                <!-- Accordion Item 1 -->
+                <div
+                    class="group flex-1 hover:flex-[3] transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] h-full relative overflow-hidden rounded-2xl cursor-pointer">
+                    <img src="gallery  assets/London.jpeg" alt="Exhibition 1"
+                        class="absolute inset-0 w-full h-full object-cover grayscale-[0.5]">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full flex flex-col justify-end h-full">
+                        <div
+                            class="text-white text-2xl tracking-tighter font-medium mb-1 whitespace-nowrap overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                            London</div>
+                        <div
+                            class="text-white/70 text-sm font-light opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                            October 14 — November 30</div>
+                    </div>
+                    <div
+                        class="absolute inset-0 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-300">
+                        <span
+                            class="text-white tracking-[0.3em] uppercase text-xs rotate-[-90deg] whitespace-nowrap">London</span>
+                    </div>
+                </div>
+                <!-- Accordion Item 2 -->
+                <div
+                    class="group flex-1 hover:flex-[3] transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] h-full relative overflow-hidden rounded-2xl cursor-pointer">
+                    <img src="gallery  assets/Whisk_999eaf527ccf39b853945aa2783ffc8adr.jpeg" alt="Exhibition 2"
+                        class="absolute inset-0 w-full h-full object-cover grayscale-[0.5]">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full flex flex-col justify-end h-full">
+                        <div
+                            class="text-white text-2xl tracking-tighter font-medium mb-1 whitespace-nowrap overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                            Paris</div>
+                        <div
+                            class="text-white/70 text-sm font-light opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                            December 05 — January 22</div>
+                    </div>
+                    <div
+                        class="absolute inset-0 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-300">
+                        <span
+                            class="text-white tracking-[0.3em] uppercase text-xs rotate-[-90deg] whitespace-nowrap">Paris</span>
+                    </div>
+                </div>
+                <!-- Accordion Item 3 -->
+                <div
+                    class="group flex-1 hover:flex-[3] transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] h-full relative overflow-hidden rounded-2xl cursor-pointer">
+                    <img src="gallery  assets/Japan (3).jpeg" alt="Exhibition 3"
+                        class="absolute inset-0 w-full h-full object-cover grayscale-[0.5]">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full flex flex-col justify-end h-full">
+                        <div
+                            class="text-white text-2xl tracking-tighter font-medium mb-1 whitespace-nowrap overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                            Tokyo</div>
+                        <div
+                            class="text-white/70 text-sm font-light opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                            February 10 — March 15</div>
+                    </div>
+                    <div
+                        class="absolute inset-0 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-300">
+                        <span
+                            class="text-white tracking-[0.3em] uppercase text-xs rotate-[-90deg] whitespace-nowrap">Tokyo</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7: ASYMMETRICAL EDITORIAL FEATURE -->
+        <section
+            class="py-32 md:py-48 px-4 w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 md:gap-32">
+            <div class="w-full md:w-1/2 flex justify-end">
+                <div
+                    class="w-full max-w-md aspect-[3/4] rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] relative">
+                    <img src="gallery  assets/renaisance stairs.jpeg" alt="Featured Artist"
+                        class="w-full h-full object-cover grayscale contrast-125 hover:scale-105 transition-transform duration-[2s]">
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 mt-[-10vh] md:mt-[10vh]">
+                <iconify-icon icon="solar:pen-new-round-linear" class="text-3xl text-zinc-300 mb-6"></iconify-icon>
+                <h3 class="text-3xl md:text-5xl tracking-tighter font-medium text-zinc-950 mb-6 leading-tight max-w-sm">
+                    Discover artists pushing boundaries.</h3>
+                <p class="text-zinc-600 font-light text-base leading-relaxed max-w-md mb-8">
+                    We spotlight creators who challenge the limits of modern materials. Experience artwork that transforms spaces and redefines how you interact with your environment.
+                </p>
+                <a href="manifesto.html"
+                    class="bg-white border border-zinc-200 text-zinc-950 rounded-full px-8 py-3 text-sm font-medium tracking-wide hover:bg-zinc-50 transition-colors shadow-sm inline-block">
+                    Read Our Manifesto
+                </a>
+            </div>
+        </section>
+
+        <!-- SECTION 8: FULL BLEED PARALLAX (Cinematic Break) -->
+        <section class="relative h-[80vh] w-full overflow-hidden flex items-center justify-center">
+            <div class="absolute inset-0 bg-zinc-950">
+                <img src="gallery  assets/art.jpg" alt="Atmosphere"
+                    class="w-full h-full object-cover opacity-40 grayscale mix-blend-screen scale-110"
+                    style="background-attachment: fixed;">
+            </div>
+            <div class="relative z-10 text-center px-4 max-w-4xl">
+                <iconify-icon icon="solar:quote-left-linear" class="text-5xl text-white/20 mb-8"></iconify-icon>
+                <h2 class="text-2xl md:text-4xl lg:text-5xl font-light text-white leading-snug tracking-tight">
+                    "Art is not what you see, but what you make others see. We simply construct the optimal lens."
+                </h2>
+                <div class="mt-12 text-white/50 text-sm tracking-widest uppercase font-medium">The Curatorial Board
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 9: SCRUBBING TEXT REVEAL (GSAP) -->
+        <section class="py-32 md:py-48 px-4 w-full bg-white flex items-center justify-center min-h-[80vh]">
+            <div id="scrub-section" class="max-w-5xl mx-auto text-center">
+                <h2 class="text-[clamp(2rem,5vw,5rem)] tracking-tighter font-medium text-zinc-950 leading-[1.1]">
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">True</span>
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">exclusivity</span>
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">is</span>
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">not</span>
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">found</span>
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">in</span>
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">scarcity,</span>
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">but</span>
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">in</span>
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">the</span>
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">absolute</span>
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">perfection</span>
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">of</span>
+                    <span class="gsap-scrub-word opacity-20 transition-opacity duration-300">context.</span>
+                </h2>
+            </div>
+        </section>
+
+
+        <!-- SECTION 11: FOOTER (Action) -->
+        <footer class="bg-zinc-950 text-white pt-32 pb-12 w-full px-4 rounded-t-[3rem] mt-[-2rem] relative z-20">
+            <div class="max-w-7xl mx-auto flex flex-col items-center justify-center text-center">
+                <div class="text-sm font-medium tracking-[0.2em] text-white/50 mb-8 uppercase">Become a Patron</div>
+                <a href="initiate.html"
+                    class="text-[clamp(3rem,10vw,10rem)] leading-none tracking-tighter font-medium mb-16 text-white hover:text-zinc-300 transition-colors cursor-pointer block">
+                    BECOME A PATRON
+                </a>
+
+                <div class="w-full h-[1px] bg-white/10 mb-12"></div>
+
+                <div class="w-full flex flex-col md:flex-row justify-between items-start gap-12 text-left">
+                    <div>
+                        <div class="text-xs tracking-[0.3rem] uppercase font-medium mb-6">A R T I F I C E</div>
+                        <p class="text-white/40 text-sm font-light max-w-xs">Architecting physical and digital
+                            environments where elite contemporary art commands absolute attention.</p>
+                    </div>
+
+                    <div class="flex flex-col gap-3 text-sm font-light text-white/50">
+                        <div class="text-xs tracking-widest uppercase font-medium text-white/30 mb-2">Navigate</div>
+                        <a href="exhibitions.html" class="hover:text-white transition-colors">Exhibitions</a>
+                        <a href="artists.html" class="hover:text-white transition-colors">Artists</a>
+                        <a href="archive.html" class="hover:text-white transition-colors">Archive</a>
+                        <a href="manifesto.html" class="hover:text-white transition-colors">Manifesto</a>
+                    </div>
+
+                    <div class="flex flex-col gap-3 text-sm font-light text-white/50">
+                        <div class="text-xs tracking-widest uppercase font-medium text-white/30 mb-2">Connect</div>
+                        <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                        <a href="#" class="hover:text-white transition-colors">Artsy</a>
+                        <a href="initiate.html" class="hover:text-white transition-colors">Private Portal</a>
+                    </div>
+
+                    <div class="text-xs font-light text-white/30 md:text-right">
+                        © 2026 Artifice Gallery Ltd.<br>All rights reserved.
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- GSAP Motion Orchestration -->
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // ==========================================
+            // REFINED HERO CHOREOGRAPHY
+            // ==========================================
+            const heroTl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+            heroTl.fromTo(".hero-bg-parallax",
+                { scale: 1.2, opacity: 0 },
+                { scale: 1, opacity: 0.02, duration: 2.5 })
+                .fromTo(".hero-fade-up",
+                    { y: 40, opacity: 0, filter: "blur(10px)" },
+                    { y: 0, opacity: 1, filter: "blur(0px)", duration: 1.8, stagger: 0.15 }, "-=2")
+                .fromTo(".hero-title-line",
+                    { y: "110%", rotate: 2 },
+                    { y: "0%", rotate: 0, duration: 1.6, stagger: 0.08 }, "-=1.8")
+                .fromTo(".hero-image-main",
+                    { y: 80, opacity: 0, scale: 0.9, rotate: -2 },
+                    { y: 0, opacity: 1, scale: 1, rotate: 0, duration: 2, ease: "power3.out" }, "-=1.6")
+                .fromTo(".hero-image-depth-1",
+                    { opacity: 0, scale: 0.8, x: -40 },
+                    { opacity: 1, scale: 1, x: 0, duration: 2.2, ease: "power2.out" }, "-=1.8")
+                .fromTo(".hero-image-depth-2",
+                    { opacity: 0, scale: 1.1, y: 60, x: 40 },
+                    { opacity: 1, scale: 1, y: 0, x: 0, duration: 2, ease: "power3.out" }, "-=1.4");
+
+            // Manifesto Section Reveal
+            const manifestoRows = document.querySelectorAll('.manifesto-row > span.inline-block');
+            const manifestoPills = document.querySelectorAll('.manifesto-pill');
+
+            gsap.fromTo(manifestoRows,
+                { y: "100%", opacity: 0 },
+                {
+                    y: "0%",
+                    opacity: 1,
+                    duration: 1.2,
+                    stagger: 0.1,
+                    ease: "power4.out",
+                    scrollTrigger: {
+                        trigger: "#manifesto-section",
+                        start: "top 80%",
+                    }
+                }
+            );
+
+            gsap.fromTo(manifestoPills,
+                { scaleX: 0, opacity: 0, filter: "blur(10px)" },
+                {
+                    scaleX: 1,
+                    opacity: 1,
+                    filter: "blur(0px)",
+                    duration: 1.5,
+                    stagger: 0.2,
+                    ease: "expo.out",
+                    delay: 0.4,
+                    scrollTrigger: {
+                        trigger: "#manifesto-section",
+                        start: "top 80%",
+                    }
+                }
+            );
+
+            // Refined Mouse Parallax
+            const body = document.querySelector('body');
+            body.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 50;
+                const y = (e.clientY / window.innerHeight - 0.5) * 50;
+
+                gsap.to(".hero-img-layer-1", { x: x * 0.4, y: y * 0.4, duration: 1.5, ease: "power2.out" });
+                gsap.to(".hero-img-layer-depth-1", { x: x * 0.15, y: y * 0.15, duration: 1.8, ease: "power2.out" });
+                gsap.to(".hero-img-layer-depth-2", { x: x * 1.2, y: y * 1.2, duration: 1.2, ease: "power2.out" });
+                gsap.to(".hero-bg-parallax", { x: x * 0.05, y: y * 0.05, duration: 2, ease: "power2.out" });
+            });
+
+            // Bento Slideshow Engine
+            const slides = document.querySelectorAll('.bento-slide');
+            let currentSlide = 0;
+
+            setInterval(() => {
+                const nextSlide = (currentSlide + 1) % (slides.length + 1); // +1 for the video
+
+                // Hide current imagery if it's an image
+                if (currentSlide > 0) gsap.to(slides[currentSlide - 1], { opacity: 0, duration: 1 });
+                else {
+                    // It was the video (currentSlide 0)
+                    const video = document.querySelector('.bento-slideshow video');
+                    gsap.to(video, { opacity: 0, duration: 1 });
+                }
+
+                // Reveal next
+                if (nextSlide === 0) {
+                    const video = document.querySelector('.bento-slideshow video');
+                    gsap.to(video, { opacity: 0.5, duration: 1 });
+                } else {
+                    gsap.to(slides[nextSlide - 1], { opacity: 0.4, duration: 1 });
+                }
+
+                currentSlide = nextSlide;
+            }, 5000);
+
+
+            // ==========================================
+            // EXISTING LOGIC
+            // ==========================================
+
+            // Infinite Marquee Engine
+            gsap.to('.marquee-track', {
+                xPercent: -50,
+                ease: 'none',
+                duration: 30,
+                repeat: -1
+            });
+
+            // Pinned Gallery Sequence
+            if (window.innerWidth > 768) {
+                ScrollTrigger.create({
+                    trigger: "#pin-container",
+                    start: "top top",
+                    end: "bottom bottom",
+                    pin: "#pin-element",
+                    pinSpacing: false,
+                    scrub: true
+                });
+            }
+
+            // Image Scale & Fade Parallax
+            gsap.utils.toArray('.gsap-image').forEach(img => {
+                gsap.fromTo(img,
+                    { scale: 0.85, opacity: 0.2 },
+                    {
+                        scale: 1.0,
+                        opacity: 1,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: img,
+                            start: "top 95%",
+                            end: "top 40%",
+                            scrub: 1
+                        }
+                    }
+                );
+            });
+
+            // Text Scrub Reveal
+            const words = gsap.utils.toArray('.gsap-scrub-word');
+            if (words.length > 0) {
+                gsap.to(words, {
+                    opacity: 1,
+                    stagger: 0.1,
+                    scrollTrigger: {
+                        trigger: "#scrub-section",
+                        start: "top 80%",
+                        end: "bottom 50%",
+                        scrub: 1.5
+                    }
+                });
+            }
+        });
+
+        // Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const menuOverlay = document.getElementById('menu-overlay');
+        menuToggle?.addEventListener('click', () => {
+            menuOverlay.classList.add('active');
+            menuOverlay.style.pointerEvents = 'auto';
+        });
+        menuClose?.addEventListener('click', () => {
+            menuOverlay.classList.remove('active');
+            menuOverlay.style.pointerEvents = 'none';
+        });
+    </script>
+
+</body>
+
+</html>

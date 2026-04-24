@@ -1,0 +1,490 @@
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>A R T I F I C E | The Roster</title>
+    <meta name="description" content="The complete visual archive and curatorial roster of contemporary masters. Redefining the limits of materiality.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <!-- Using Unified Font Stack (Instrument Sans) -->
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        .menu-overlay { clip-path: circle(0% at calc(100% - 4rem) 2.5rem); transition: clip-path 0.8s cubic-bezier(0.76, 0, 0.24, 1); }
+        .menu-overlay.active { clip-path: circle(150% at calc(100% - 4rem) 2.5rem); }
+        .menu-link { opacity: 0; transform: translateY(2rem); transition: opacity 0.6s cubic-bezier(0.32, 0.72, 0, 1), transform 0.6s cubic-bezier(0.32, 0.72, 0, 1); }
+        .menu-overlay.active .menu-link { opacity: 1; transform: translateY(0); }
+        .menu-overlay.active .menu-link:nth-child(1) { transition-delay: 0.15s; }
+        .menu-overlay.active .menu-link:nth-child(2) { transition-delay: 0.22s; }
+        .menu-overlay.active .menu-link:nth-child(3) { transition-delay: 0.29s; }
+        .menu-overlay.active .menu-link:nth-child(4) { transition-delay: 0.36s; }
+        .menu-overlay.active .menu-link:nth-child(5) { transition-delay: 0.43s; }
+        .menu-overlay.active .menu-link:nth-child(6) { transition-delay: 0.50s; }
+        .menu-overlay.active .menu-link:nth-child(7) { transition-delay: 0.57s; }
+        /* Grain overlay */
+        .grain-overlay { position: fixed; inset: 0; z-index: 100; pointer-events: none; opacity: 0.03; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 128px 128px; }
+        /* Smooth anchors */
+        a, button { transition: all 0.5s cubic-bezier(0.32, 0.72, 0, 1); }
+        a:active, button:active { transform: scale(0.98); }
+        
+        .artist-hover-img { 
+            position: fixed; pointer-events: none; z-index: 40;
+            width: 22vw; max-width: 320px; aspect-ratio: 3/4;
+            border-radius: 1.5rem; overflow: hidden;
+            opacity: 0; transform: scale(0.8);
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 30px 60px -15px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem;
+        }
+        .artist-hover-img.visible { opacity: 1; transform: scale(1); }
+        .archive-grid { display: grid; grid-auto-flow: dense; }
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+    </style>
+</head>
+<body class="bg-[#f9fafb] text-zinc-950 antialiased overflow-x-hidden w-full max-w-full selection:bg-zinc-900 selection:text-white" style="font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';">
+
+    <!-- GRAIN OVERLAY -->
+    <div class="grain-overlay"></div>
+
+    <!-- NAVIGATION (Liquid Glass Pill) -->
+    <nav class="fixed top-4 md:top-6 left-0 right-0 z-50 flex justify-center px-3 md:px-4 w-full pointer-events-none">
+        <div class="pointer-events-auto flex items-center justify-between bg-white/40 backdrop-blur-3xl backdrop-brightness-125 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_20px_40px_-15px_rgba(0,0,0,0.1)] rounded-full px-5 md:px-8 py-3.5 md:py-4 w-full max-w-3xl lg:max-w-5xl border border-white/40 transition-all duration-500">
+            <a href="index.html" class="text-[clamp(0.625rem,1vw,0.75rem)] tracking-[0.25rem] md:tracking-[0.4rem] uppercase font-medium text-zinc-950 hover:text-zinc-500 shrink-0">A R T I F I C E</a>
+            <div class="hidden lg:flex items-center gap-10 text-[10px] tracking-[0.2rem] uppercase font-medium text-zinc-800">
+                <a href="exhibitions.html" class="hover:text-zinc-950 transition-colors">Exhibitions</a>
+                <a href="artists.html" class="hover:text-zinc-950 transition-colors border-b border-zinc-950 pb-0.5">Artists</a>
+                <a href="archive.html" class="hover:text-zinc-950 transition-colors">Archive</a>
+                <a href="manifesto.html" class="hover:text-zinc-950 transition-colors">Manifesto</a>
+                <a href="initiate.html" class="hover:text-zinc-950 transition-colors border-l border-zinc-200 pl-10">Initiate</a>
+            </div>
+            <button id="menu-toggle" class="lg:hidden text-[clamp(0.625rem,1vw,0.75rem)] tracking-widest uppercase font-medium border-b border-zinc-950 pb-0.5 hover:text-zinc-500 hover:border-zinc-500">Menu</button>
+        </div>
+    </nav>
+
+    <!-- FULLSCREEN MENU OVERLAY -->
+    <div id="menu-overlay" class="menu-overlay fixed inset-0 z-[60] bg-zinc-950 flex items-center justify-center pointer-events-none">
+        <button id="menu-close" class="absolute top-8 right-8 text-white/70 hover:text-white text-xs tracking-widest uppercase font-medium border-b border-white/30 pb-0.5 transition-colors">Close</button>
+        <div class="flex flex-col items-center gap-6">
+            <a href="index.html" class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Home</a>
+            <a href="exhibitions.html" class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Exhibitions</a>
+            <a href="artists.html" class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Artists</a>
+            <a href="archive.html" class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Archive</a>
+            <a href="manifesto.html" class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Manifesto</a>
+            <a href="initiate.html" class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Initiate</a>
+        </div>
+        <div class="absolute bottom-12 text-white/30 text-xs tracking-widest uppercase">© 2026 Artifice Gallery Ltd.</div>
+    </div>
+
+    <!-- HOVER FOLLOWER -->
+    <div id="artist-hover-img" class="artist-hover-img hidden md:block shadow-2xl">
+        <img id="artist-hover-img-src" src="" alt="" class="w-full h-full object-cover grayscale-[0.2]">
+    </div>
+
+    <main class="w-full max-w-full overflow-hidden">
+        
+        <!-- HERO (AIDA: Attention - Cinematic Wide Layout with Inline Imagery) -->
+        <section class="relative min-h-[100dvh] flex flex-col justify-center px-4 md:px-12 pt-32 pb-16 w-full max-w-[1400px] mx-auto">
+            <div class="relative z-10 w-full flex flex-col items-center text-center">
+                <h1 class="text-[clamp(3.5rem,8vw,7.5rem)] leading-[0.85] tracking-tighter font-normal text-zinc-950 max-w-6xl w-full">
+                    Visionaries
+                                        <span class="inline-block w-20 md:w-32 h-10 md:h-[4.5rem] rounded-full align-middle bg-cover bg-center mx-1 md:mx-4 grayscale-[0.4] hover:grayscale-0 hover:scale-105 transition-all duration-[1s] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)]" style="background-image: url('gallery  assets/Faces/pexels-erkocphoto-31646743.jpg')"></span>
+
+                    redefining 
+                    the limits
+                    <span class="inline-block w-20 md:w-32 h-10 md:h-[4.5rem] rounded-full align-middle bg-cover bg-center mx-1 md:mx-4 grayscale-[0.4] hover:grayscale-0 hover:scale-105 transition-all duration-[1s] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)]" style="background-image: url('gallery  assets/Faces/pexels-olly-3766191.jpg')"></span><br>
+
+                    of materiality.
+                </h1>
+                
+                <div class="mt-12 md:mt-20 flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 w-full max-w-md mx-auto sm:max-w-none">
+                    <button class="w-full sm:w-auto bg-zinc-950 text-white rounded-full px-7 py-3.5 md:px-8 md:py-4 text-xs md:text-sm font-normal tracking-wide hover:bg-zinc-800 transition-colors duration-500 inline-flex items-center justify-center gap-2 group">
+                        Book an Art Consultation
+                        <iconify-icon icon="solar:arrow-right-up-linear" class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></iconify-icon>
+                    </button>
+                    <a href="#archive" class="w-full sm:w-auto text-zinc-500 text-xs md:text-sm font-medium tracking-wide hover:text-zinc-950 transition-colors py-3 md:py-4 flex justify-center items-center">
+                        Explore the Roster
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- TEXT REVEAL SCRUB (AIDA: Interest - GSAP Animation) -->
+        <section class="py-32 md:py-48 px-4 w-full max-w-5xl mx-auto flex justify-center text-center border-t border-zinc-200/50">
+            <p id="scrub-text" class="text-[clamp(1.5rem,4vw,3.5rem)] leading-[1.1] font-light text-zinc-950 w-full tracking-tight">
+                Explore the definitive portfolio of ARTIFICE. Discover contemporary masters who are reshaping spatial perception and pushing the boundaries of modern art across the globe.
+            </p>
+        </section>
+
+        <!-- METRICS BENTO (Cockpit density formatting) -->
+        <section class="pb-32 md:pb-48 w-full max-w-[1400px] mx-auto px-4 md:px-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-200/50 rounded-[2.5rem] overflow-hidden">
+                <div class="bg-[#f9fafb] p-10 md:p-16 flex flex-col justify-end min-h-[16rem]">
+                    <div class="text-5xl md:text-7xl font-mono tracking-tighter text-zinc-950 mb-2">142</div>
+                    <div class="text-sm font-light text-zinc-500 uppercase tracking-widest">Total Artists</div>
+                </div>
+                <div class="bg-[#f9fafb] p-10 md:p-16 flex flex-col justify-end min-h-[16rem]">
+                    <div class="text-5xl md:text-7xl font-mono tracking-tighter text-zinc-950 mb-2">8.4k</div>
+                    <div class="text-sm font-light text-zinc-500 uppercase tracking-widest">Archived Works</div>
+                </div>
+                <div class="bg-[#f9fafb] p-10 md:p-16 flex flex-col justify-end min-h-[16rem]">
+                    <div class="text-5xl md:text-7xl font-mono tracking-tighter text-zinc-950 mb-2">18</div>
+                    <div class="text-sm font-light text-zinc-500 uppercase tracking-widest">Global Regions</div>
+                </div>
+                <div class="bg-[#f9fafb] p-10 md:p-16 flex flex-col justify-end min-h-[16rem]">
+                    <div class="text-5xl md:text-7xl font-mono tracking-tighter text-zinc-950 mb-2">2.4<span class="text-3xl text-zinc-400">B</span></div>
+                    <div class="text-sm font-light text-zinc-500 uppercase tracking-widest">Portfolio Value</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MASSIVE VISUAL ARCHIVE (AIDA: Desire - Gapless Mathematical Grid) -->
+        <section id="archive" class="py-32 md:py-48 w-full max-w-[100vw] px-2 md:px-4 mx-auto bg-zinc-950 text-white border-t border-zinc-900 rounded-[3rem] -mt-[3rem] relative z-20">
+            <div class="max-w-[1400px] mx-auto flex flex-col mb-16 md:mb-24 px-4 text-center items-center">
+                <h2 class="text-[clamp(3rem,6vw,5.5rem)] tracking-tighter font-normal leading-none max-w-4xl">The Visual Record</h2>
+            </div>
+
+            <!-- Mathematical Dense Grid: Exactly 12 cells of space in a 4-col layout = 3 Rows perfectly filled -->
+            <div class="archive-grid grid-cols-2 md:grid-cols-4 auto-rows-[16rem] md:auto-rows-[24rem] gap-2 md:gap-3 w-full max-w-[1400px] mx-auto">
+                
+                <!-- Item A (2x2) = 4 cells -->
+                <div class="col-span-2 row-span-2 relative group overflow-hidden bg-zinc-900 rounded-3xl archive-card cursor-pointer">
+                    <img src="gallery  assets/light siphon.jpeg" alt="Aurelia Vance" class="absolute inset-0 w-full h-full object-cover grayscale-[0.5] mix-blend-luminosity group-hover:mix-blend-normal group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-700"></div>
+                    <div class="absolute bottom-0 left-0 p-8 md:p-12 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                        <div class="text-white text-4xl md:text-6xl tracking-tight font-normal mb-2">Aurelia Vance</div>
+                        <div class="text-white/60 text-sm font-light tracking-widest uppercase">Installation · Light</div>
+                    </div>
+                </div>
+
+                <!-- Item B (1x2) = 2 cells -->
+                <div class="col-span-1 row-span-2 relative group overflow-hidden bg-zinc-900 rounded-3xl archive-card cursor-pointer">
+                    <img src="gallery  assets/hero_floating_art2.png" alt="Julian Thorne" class="absolute inset-0 w-full h-full object-cover grayscale-[0.5] mix-blend-luminosity group-hover:mix-blend-normal group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-700"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+                        <div class="text-white text-3xl tracking-tight font-normal mb-1">Julian Thorne</div>
+                        <div class="text-white/60 text-xs font-light uppercase tracking-widest">Sculpture</div>
+                    </div>
+                </div>
+
+                <!-- Item C (1x1) = 1 cell -->
+                <div class="col-span-1 row-span-1 relative group overflow-hidden bg-zinc-900 rounded-3xl archive-card cursor-pointer">
+                    <img src="gallery  assets/earth-1756274.jpg" alt="Elena Rostova" class="absolute inset-0 w-full h-full object-cover grayscale-[0.5] mix-blend-luminosity group-hover:mix-blend-normal group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-700"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+                        <div class="text-white text-2xl tracking-tight font-normal mb-1">Elena Rostova</div>
+                    </div>
+                </div>
+
+                <!-- Item D (1x1) = 1 cell -->
+                <div class="col-span-1 row-span-1 relative group overflow-hidden bg-zinc-900 rounded-3xl archive-card cursor-pointer">
+                    <img src="gallery  assets/Whisk_434ffabd78d7d4f9c6a47c8b9e57e4b9dr.jpeg" alt="Marcus Vane" class="absolute inset-0 w-full h-full object-cover grayscale-[0.5] mix-blend-luminosity group-hover:mix-blend-normal group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-700"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+                        <div class="text-white text-2xl tracking-tight font-normal mb-1">Marcus Vane</div>
+                    </div>
+                </div>
+
+                <!-- Item E (2x1) = 2 cells -->
+                <div class="col-span-2 row-span-1 relative group overflow-hidden bg-zinc-900 rounded-3xl archive-card cursor-pointer">
+                    <img src="gallery  assets/hero_floating_art1.png" alt="Serena Lin" class="absolute inset-0 w-full h-full object-cover grayscale-[0.5] mix-blend-luminosity group-hover:mix-blend-normal group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-700"></div>
+                    <div class="absolute bottom-0 left-0 p-8 md:p-12 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+                        <div class="text-white text-4xl tracking-tight font-normal mb-1">Serena Lin</div>
+                        <div class="text-white/60 text-xs font-light uppercase tracking-widest">Marble · Void</div>
+                    </div>
+                </div>
+
+                <!-- Item F (1x1) = 1 cell -->
+                <div class="col-span-1 row-span-1 relative group overflow-hidden bg-zinc-900 rounded-3xl archive-card cursor-pointer">
+                    <img src="gallery  assets/Whisk_1f6f4702f4be3bb821c4cf467d671994dr.jpeg" alt="Kaito Nakamura" class="absolute inset-0 w-full h-full object-cover grayscale-[0.5] mix-blend-luminosity group-hover:mix-blend-normal group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-700"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+                        <div class="text-white text-2xl tracking-tight font-normal mb-1">Kaito Nakamura</div>
+                    </div>
+                </div>
+
+                <!-- Item G (1x1) = 1 cell -->
+                <!-- 4 + 2 + 1 + 1 + 2 + 1 + 1 = 12 exactly -->
+                <div class="col-span-1 row-span-1 relative group overflow-hidden bg-zinc-900 rounded-3xl archive-card cursor-pointer">
+                    <img src="gallery  assets/Whisk_def372ba667d0c0a22e498dda314736bdr.jpeg" alt="Isabelle Moreau" class="absolute inset-0 w-full h-full object-cover grayscale-[0.5] mix-blend-luminosity group-hover:mix-blend-normal group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-700"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+                        <div class="text-white text-2xl tracking-tight font-normal mb-1">Isabelle Moreau</div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- SECTION 6: ARTIST SPOTLIGHT (Pinned Editorial) -->
+        <section id="spotlight-container" class="py-32 md:py-0 w-full max-w-7xl mx-auto flex flex-col md:flex-row relative px-4">
+            
+            <!-- Fixed Left Column: Header (Centered on Desktop) -->
+            <div class="w-full md:w-5/12 md:h-screen flex flex-col justify-center mb-16 md:mb-0" id="spotlight-pin">
+                <div class="max-w-md">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-6 h-[1px] bg-zinc-950"></span>
+                        <span class="text-[10px] tracking-[0.4em] uppercase font-bold text-zinc-950">Artist Spotlight</span>
+                    </div>
+                    <h3 class="text-[clamp(2.5rem,5vw,4.5rem)] tracking-tighter font-medium text-zinc-950 leading-[0.9] mb-8">
+                        Architectural <br> <span class="text-zinc-300 italic font-light">Intervention</span>
+                    </h3>
+                    <p class="text-zinc-500 font-light text-base leading-relaxed mb-10">
+                        Experience exhibitions that transform spaces into immersive, perceptual voids. Represented by ARTIFICE since 2019. Based in London.
+                    </p>
+                    <a href="#roster" class="inline-flex items-center gap-3 text-xs tracking-widest uppercase font-semibold text-zinc-950 group">
+                        <span class="border-b-2 border-zinc-950 pb-1 group-hover:border-zinc-400 transition-colors">View Full Roster</span>
+                        <div class="w-8 h-8 rounded-full border border-zinc-200 flex items-center justify-center group-hover:bg-zinc-950 group-hover:text-white transition-all">
+                            <iconify-icon icon="solar:arrow-right-up-linear" class="text-base"></iconify-icon>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scrolling Right Column: Cinematic Portfolio (Standardized 16:9) -->
+            <div class="w-full md:w-7/12 md:py-48 flex flex-col gap-24 md:gap-48">
+                <!-- Artwork A -->
+                <div class="w-full aspect-[16/9] rounded-[2.5rem] overflow-hidden group shadow-2xl relative">
+                    <img src="gallery  assets/Whisk_wytz4m2mijznmhdntymmjfwlmldn00cn5mwntym.jpeg" alt="Spotlight Artwork" class="gsap-image-scale w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2s] ease-out">
+                    <div class="absolute bottom-6 left-8 text-white/50 text-[10px] tracking-widest uppercase font-medium mix-blend-difference">Intervention I</div>
+                </div>
+                <!-- Artwork B -->
+                <div class="w-full aspect-[16/9] rounded-[2.5rem] overflow-hidden group shadow-2xl relative">
+                    <img src="gallery  assets/Whisk_1c5fd450bcd251a9a85410554f771c27dr.jpeg" alt="Spotlight Artwork" class="gsap-image-scale w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2s] ease-out">
+                    <div class="absolute bottom-6 left-8 text-white/50 text-[10px] tracking-widest uppercase font-medium mix-blend-difference">Intervention II</div>
+                </div>
+                <!-- Artwork C -->
+                <div class="w-full aspect-[16/9] rounded-[2.5rem] overflow-hidden group shadow-2xl relative">
+                    <img src="gallery  assets/Whisk_79f8130197d589fa8404c84ac668e9dddr.jpeg" alt="Spotlight Artwork" class="gsap-image-scale w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2s] ease-out">
+                    <div class="absolute bottom-6 left-8 text-white/50 text-[10px] tracking-widest uppercase font-medium mix-blend-difference">Intervention III</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TYPOGRAPHIC INDEX (Hover Reveal) -->
+        <section id="roster" class="py-32 md:py-48 px-4 w-full max-w-6xl mx-auto border-t border-zinc-200/50">
+            <h2 class="text-4xl md:text-5xl tracking-tight font-normal text-zinc-950 mb-20 text-center">The Directory</h2>
+            
+            <div class="flex flex-col divide-y divide-zinc-200">
+                <div class="artist-row py-12 flex justify-between items-center group cursor-pointer" data-img="gallery  assets/Faces/pexels-gabby-k-5384445.jpg">
+                    <div class="flex items-center gap-6 md:gap-12 w-full">
+                        <span class="text-sm font-mono text-zinc-300 w-8 hidden md:block">01</span>
+                        <span class="text-4xl md:text-[5rem] tracking-tighter font-normal text-zinc-300 group-hover:text-zinc-950 transition-colors duration-500 leading-none">Aurelia Vance</span>
+                    </div>
+                    <iconify-icon icon="solar:arrow-right-up-linear" class="text-zinc-300 group-hover:text-zinc-950 group-hover:translate-x-2 group-hover:-translate-y-2 transition-all text-3xl"></iconify-icon>
+                </div>
+
+                <div class="artist-row py-12 flex justify-between items-center group cursor-pointer" data-img="gallery  assets/Faces/pexels-camilo-raw-1586143-15088406.jpg">
+                    <div class="flex items-center gap-6 md:gap-12 w-full">
+                        <span class="text-sm font-mono text-zinc-300 w-8 hidden md:block">02</span>
+                        <span class="text-4xl md:text-[5rem] tracking-tighter font-normal text-zinc-300 group-hover:text-zinc-950 transition-colors duration-500 leading-none">Julian Thorne</span>
+                    </div>
+                    <iconify-icon icon="solar:arrow-right-up-linear" class="text-zinc-300 group-hover:text-zinc-950 group-hover:translate-x-2 group-hover:-translate-y-2 transition-all text-3xl"></iconify-icon>
+                </div>
+
+                <div class="artist-row py-12 flex justify-between items-center group cursor-pointer" data-img="gallery  assets/Faces/pexels-michael-obstoj-1772571864-33514767.jpg">
+                    <div class="flex items-center gap-6 md:gap-12 w-full">
+                        <span class="text-sm font-mono text-zinc-300 w-8 hidden md:block">03</span>
+                        <span class="text-4xl md:text-[5rem] tracking-tighter font-normal text-zinc-300 group-hover:text-zinc-950 transition-colors duration-500 leading-none">Elena Rostova</span>
+                    </div>
+                    <iconify-icon icon="solar:arrow-right-up-linear" class="text-zinc-300 group-hover:text-zinc-950 group-hover:translate-x-2 group-hover:-translate-y-2 transition-all text-3xl"></iconify-icon>
+                </div>
+
+                <div class="artist-row py-12 flex justify-between items-center group cursor-pointer" data-img="gallery  assets/Faces/pexels-maide-arslan-128712163-28452452.jpg">
+                    <div class="flex items-center gap-6 md:gap-12 w-full">
+                        <span class="text-sm font-mono text-zinc-300 w-8 hidden md:block">04</span>
+                        <span class="text-4xl md:text-[5rem] tracking-tighter font-normal text-zinc-300 group-hover:text-zinc-950 transition-colors duration-500 leading-none">Marcus Vane</span>
+                    </div>
+                    <iconify-icon icon="solar:arrow-right-up-linear" class="text-zinc-300 group-hover:text-zinc-950 group-hover:translate-x-2 group-hover:-translate-y-2 transition-all text-3xl"></iconify-icon>
+                </div>
+
+                <div class="artist-row py-12 flex justify-between items-center group cursor-pointer" data-img="gallery  assets/Faces/pexels-chrissykrueger-31693590.jpg">
+                    <div class="flex items-center gap-6 md:gap-12 w-full">
+                        <span class="text-sm font-mono text-zinc-300 w-8 hidden md:block">05</span>
+                        <span class="text-4xl md:text-[5rem] tracking-tighter font-normal text-zinc-300 group-hover:text-zinc-950 transition-colors duration-500 leading-none">Serena Lin</span>
+                    </div>
+                    <iconify-icon icon="solar:arrow-right-up-linear" class="text-zinc-300 group-hover:text-zinc-950 group-hover:translate-x-2 group-hover:-translate-y-2 transition-all text-3xl"></iconify-icon>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER (Action) -->
+        <footer class="bg-zinc-950 text-white pt-32 pb-12 w-full px-4 rounded-t-[3rem] mt-[-2rem] relative z-20">
+            <div class="max-w-7xl mx-auto flex flex-col items-center justify-center text-center">
+                <div class="text-sm font-medium tracking-[0.2em] text-white/50 mb-8 uppercase">Become a Patron</div>
+                <a href="initiate.html" class="text-[clamp(3rem,10vw,10rem)] leading-none tracking-tighter font-medium mb-16 text-white hover:text-zinc-300 transition-colors block">
+                    BECOME A PATRON
+                </a>
+                
+                <div class="w-full h-[1px] bg-white/10 mb-12"></div>
+                
+                <div class="w-full flex flex-col md:flex-row justify-between items-start gap-12 text-left">
+                    <div>
+                        <div class="text-xs tracking-[0.3rem] uppercase font-medium mb-6">A R T I F I C E</div>
+                        <p class="text-white/40 text-sm font-light max-w-xs">Architecting physical and digital environments where elite contemporary art commands absolute attention.</p>
+                    </div>
+                    
+                    <div class="flex flex-col gap-3 text-sm font-light text-white/50">
+                        <div class="text-xs tracking-widest uppercase font-medium text-white/30 mb-2">Navigate</div>
+                        <a href="exhibitions.html" class="hover:text-white transition-colors">Exhibitions</a>
+                        <a href="artists.html" class="hover:text-white transition-colors">Artists</a>
+                        <a href="archive.html" class="hover:text-white transition-colors">Archive</a>
+                        <a href="manifesto.html" class="hover:text-white transition-colors">Manifesto</a>
+                    </div>
+
+                    <div class="flex flex-col gap-3 text-sm font-light text-white/50">
+                        <div class="text-xs tracking-widest uppercase font-medium text-white/30 mb-2">Connect</div>
+                        <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                        <a href="#" class="hover:text-white transition-colors">Artsy</a>
+                        <a href="initiate.html" class="hover:text-white transition-colors">Private Portal</a>
+                    </div>
+                    
+                    <div class="text-xs font-light text-white/30 md:text-right">
+                        © 2026 Artifice Gallery Ltd.<br>All rights reserved.
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // GSAP Scrub Text Effect
+            const scrubText = document.getElementById('scrub-text');
+            if (scrubText) {
+                // Split text into spans
+                const words = scrubText.innerText.split(' ');
+                scrubText.innerHTML = '';
+                words.forEach(word => {
+                    const span = document.createElement('span');
+                    span.innerText = word + ' ';
+                    span.style.opacity = '0.15';
+                    span.style.transition = 'opacity 0.1s';
+                    scrubText.appendChild(span);
+                });
+                
+                gsap.to('#scrub-text span', {
+                    opacity: 1,
+                    stagger: 0.1,
+                    scrollTrigger: {
+                        trigger: '#scrub-text',
+                        start: "top 85%",
+                        end: "bottom 50%",
+                        scrub: 1.5
+                    }
+                });
+            }
+
+            // Staggered reveal for Archive Grid
+            const archiveCards = gsap.utils.toArray('.archive-card');
+            if(archiveCards.length > 0) {
+                gsap.fromTo(archiveCards, 
+                    { opacity: 0, y: 80, scale: 0.95 },
+                    { 
+                        opacity: 1, 
+                        y: 0, 
+                        scale: 1,
+                        stagger: 0.08, 
+                        duration: 1.2, 
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: ".archive-grid",
+                            start: "top 80%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            }
+
+            // Image Scale & Fade on Scroll for Pinned Section Images
+            gsap.utils.toArray('.gsap-image-scale').forEach(img => {
+                gsap.fromTo(img, 
+                    { scale: 0.85, opacity: 0.4 },
+                    { 
+                        scale: 1, 
+                        opacity: 1, 
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: img.parentElement,
+                            start: "top 95%",
+                            end: "top 40%",
+                            scrub: 1
+                        }
+                    }
+                );
+            });
+
+            // GSAP Pinning for Desktop (Spotlight Section)
+            ScrollTrigger.matchMedia({
+                "(min-width: 768px)": function() {
+                    ScrollTrigger.create({
+                        trigger: "#spotlight-container",
+                        pin: "#spotlight-pin",
+                        start: "top top",
+                        end: "bottom bottom",
+                        pinSpacing: false,
+                        scrub: true
+                    });
+                }
+            });
+
+            // Artist row hover image follower
+            const hoverImg = document.getElementById('artist-hover-img');
+            const hoverImgSrc = document.getElementById('artist-hover-img-src');
+            const artistRows = document.querySelectorAll('.artist-row');
+
+            let mouseX = 0;
+            let mouseY = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            artistRows.forEach(row => {
+                row.addEventListener('mouseenter', () => {
+                    const imgUrl = row.getAttribute('data-img');
+                    if (imgUrl) {
+                        hoverImgSrc.src = imgUrl;
+                        hoverImg.classList.add('visible');
+                    }
+                });
+                row.addEventListener('mouseleave', () => {
+                    hoverImg.classList.remove('visible');
+                });
+                row.addEventListener('mousemove', () => {
+                    gsap.to(hoverImg, {
+                        x: mouseX + 40,
+                        y: mouseY - 150,
+                        duration: 0.5,
+                        ease: "power3.out"
+                    });
+                });
+            });
+
+            // Menu Toggle
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const menuOverlay = document.getElementById('menu-overlay');
+            menuToggle?.addEventListener('click', () => {
+                menuOverlay.classList.add('active');
+                menuOverlay.style.pointerEvents = 'auto';
+            });
+            menuClose?.addEventListener('click', () => {
+                menuOverlay.classList.remove('active');
+                menuOverlay.style.pointerEvents = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

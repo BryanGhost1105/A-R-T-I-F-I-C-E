@@ -1,0 +1,324 @@
+<html lang="en" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>ARTIFICE | The Manifesto</title>
+    <meta name="description" content="The philosophy and curatorial methodology behind ARTIFICE. Spatial context, materiality, and the architecture of void.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <!-- Optimized System Stack (Matching Application Default) -->
+    <style>
+        *, *::before, *::after { 
+            box-sizing: border-box; 
+        }
+
+        .menu-overlay { clip-path: circle(0% at calc(100% - 4rem) 2.5rem); transition: clip-path 0.8s cubic-bezier(0.76, 0, 0.24, 1); }
+        .menu-overlay.active { clip-path: circle(150% at calc(100% - 4rem) 2.5rem); }
+        .menu-link { opacity: 0; transform: translateY(2rem); transition: opacity 0.6s cubic-bezier(0.32, 0.72, 0, 1), transform 0.6s cubic-bezier(0.32, 0.72, 0, 1); }
+        .menu-overlay.active .menu-link { opacity: 1; transform: translateY(0); }
+        .menu-overlay.active .menu-link:nth-child(1) { transition-delay: 0.15s; }
+        .menu-overlay.active .menu-link:nth-child(2) { transition-delay: 0.22s; }
+        .menu-overlay.active .menu-link:nth-child(3) { transition-delay: 0.29s; }
+        .menu-overlay.active .menu-link:nth-child(4) { transition-delay: 0.36s; }
+        .menu-overlay.active .menu-link:nth-child(5) { transition-delay: 0.43s; }
+        .menu-overlay.active .menu-link:nth-child(6) { transition-delay: 0.50s; }
+        .menu-overlay.active .menu-link:nth-child(7) { transition-delay: 0.57s; }
+        .grain-overlay { position: fixed; inset: 0; z-index: 100; pointer-events: none; opacity: 0.03; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 128px 128px; }
+        a, button { transition: all 0.5s cubic-bezier(0.32, 0.72, 0, 1); }
+        a:active, button:active { transform: scale(0.98); }
+    </style>
+</head>
+<body class="bg-[#f9fafb] text-zinc-950 antialiased overflow-x-hidden w-full max-w-full selection:bg-zinc-900 selection:text-white" style="font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';">
+
+    <!-- GRAIN OVERLAY -->
+    <div class="grain-overlay"></div>
+
+    <!-- NAVIGATION (Liquid Glass Pill) -->
+    <nav class="fixed top-4 md:top-6 left-0 right-0 z-50 flex justify-center px-3 md:px-4 w-full pointer-events-none">
+        <div class="pointer-events-auto flex items-center justify-between bg-white/40 backdrop-blur-3xl backdrop-brightness-125 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_20px_40px_-15px_rgba(0,0,0,0.1)] rounded-full px-5 md:px-8 py-3.5 md:py-4 w-full max-w-3xl lg:max-w-5xl border border-white/40 transition-all duration-500">
+            <a href="index.html" class="text-[clamp(0.625rem,1vw,0.75rem)] tracking-[0.25rem] md:tracking-[0.4rem] uppercase font-medium text-zinc-950 hover:text-zinc-500 shrink-0">A R T I F I C E</a>
+            <div class="hidden lg:flex items-center gap-10 text-[10px] tracking-[0.2rem] uppercase font-medium text-zinc-800">
+                <a href="exhibitions.html" class="hover:text-zinc-950 transition-colors">Exhibitions</a>
+                <a href="artists.html" class="hover:text-zinc-950 transition-colors">Artists</a>
+                <a href="archive.html" class="hover:text-zinc-950 transition-colors">Archive</a>
+                <a href="manifesto.html" class="hover:text-zinc-950 transition-colors border-b border-zinc-950 pb-0.5">Manifesto</a>
+                <a href="initiate.html" class="hover:text-zinc-950 transition-colors border-l border-zinc-200 pl-10">Initiate</a>
+            </div>
+            <button id="menu-toggle" class="lg:hidden text-[clamp(0.625rem,1vw,0.75rem)] tracking-widest uppercase font-medium border-b border-zinc-950 pb-0.5 hover:text-zinc-500 hover:border-zinc-500">Menu</button>
+        </div>
+    </nav>
+
+    <!-- FULLSCREEN MENU OVERLAY -->
+    <div id="menu-overlay" class="menu-overlay fixed inset-0 z-[60] bg-zinc-950 flex items-center justify-center pointer-events-none">
+        <button id="menu-close" class="absolute top-8 right-8 text-white/70 hover:text-white text-xs tracking-widest uppercase font-medium border-b border-white/30 pb-0.5 transition-colors">Close</button>
+        <div class="flex flex-col items-center gap-6">
+            <a href="index.html" class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Home</a>
+            <a href="exhibitions.html" class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Exhibitions</a>
+            <a href="artists.html" class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Artists</a>
+            <a href="archive.html" class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Archive</a>
+            <a href="manifesto.html" class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Manifesto</a>
+            <a href="initiate.html" class="menu-link text-white text-[clamp(2rem,6vw,5rem)] tracking-tighter font-medium hover:text-white/60 transition-colors">Initiate</a>
+        </div>
+        <div class="absolute bottom-12 text-white/30 text-xs tracking-widest uppercase">© 2026 Artifice Gallery Ltd.</div>
+    </div>
+
+    <main class="w-full max-w-full overflow-hidden">
+
+        <!-- HERO: DARK IMMERSIVE -->
+        <section class="relative min-h-[100dvh] flex flex-col items-center justify-center text-center px-4 w-full bg-zinc-950 overflow-hidden">
+            <div class="absolute inset-0">
+                <img src="gallery  assets/Whisk_434ffabd78d7d4f9c6a47c8b9e57e4b9dr.jpeg" alt="Manifesto" class="w-full h-full object-cover opacity-20 grayscale mix-blend-luminosity">
+            </div>
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.6)_100%)]"></div>
+            <div class="relative z-10 max-w-4xl">
+                <div class="text-xs tracking-[0.4rem] uppercase font-medium text-white/40 mb-8">Est. 2026</div>
+                <h1 class="text-[clamp(3rem,8vw,8rem)] leading-[0.85] tracking-tighter font-medium text-white mb-8">
+                    The Manifesto.
+                </h1>
+                <p class="text-xl text-white/50 font-light leading-relaxed max-w-[45ch] mx-auto">
+                    Discover our philosophical framework for designing environments where contemporary art takes center stage.
+                </p>
+                <div class="mt-16 flex items-center justify-center gap-2 text-white/30 text-xs tracking-widest uppercase">
+                    <span>Scroll to Begin</span>
+                    <iconify-icon icon="solar:arrow-down-linear" class="text-sm animate-bounce"></iconify-icon>
+                </div>
+            </div>
+        </section>
+
+        <!-- PILLAR 1: SCRUB TEXT -->
+        <section class="py-48 px-4 w-full bg-white flex items-center justify-center min-h-[80vh]">
+            <div id="scrub-1" class="max-w-5xl mx-auto text-center">
+                <div class="text-xs tracking-widest uppercase font-medium text-zinc-300 mb-12">Pillar I</div>
+                <h2 class="text-[clamp(2rem,5vw,5rem)] tracking-tighter font-medium text-zinc-950 leading-[1.1]">
+                    <span class="gsap-scrub-word opacity-20">A</span>
+                    <span class="gsap-scrub-word opacity-20">gallery</span>
+                    <span class="gsap-scrub-word opacity-20">is</span>
+                    <span class="gsap-scrub-word opacity-20">not</span>
+                    <span class="gsap-scrub-word opacity-20">a</span>
+                    <span class="gsap-scrub-word opacity-20">neutral</span>
+                    <span class="gsap-scrub-word opacity-20">vessel.</span>
+                    <span class="gsap-scrub-word opacity-20">It</span>
+                    <span class="gsap-scrub-word opacity-20">is</span>
+                    <span class="gsap-scrub-word opacity-20">an</span>
+                    <span class="gsap-scrub-word opacity-20">instrument</span>
+                    <span class="gsap-scrub-word opacity-20">of</span>
+                    <span class="gsap-scrub-word opacity-20">attention,</span>
+                    <span class="gsap-scrub-word opacity-20">calibrated</span>
+                    <span class="gsap-scrub-word opacity-20">to</span>
+                    <span class="gsap-scrub-word opacity-20">amplify</span>
+                    <span class="gsap-scrub-word opacity-20">genius.</span>
+                </h2>
+            </div>
+        </section>
+
+        <!-- EDITORIAL: SPATIAL CONTEXT -->
+        <section class="py-32 md:py-48 px-4 w-full max-w-7xl mx-auto flex flex-col md:flex-row items-start gap-16 md:gap-32">
+            <div class="w-full md:w-1/2 sticky top-32">
+                <div class="w-full aspect-[4/5] rounded-[2rem] overflow-hidden relative group">
+                    <img src="gallery  assets/Whisk_443f74cefbad2369d0a45fecb920662edr.jpeg" alt="Spatial Context" class="w-full h-full object-cover grayscale-[0.4] group-hover:grayscale-0 transition-all duration-[2s]">
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 flex flex-col gap-16 py-16">
+                <div class="gsap-reveal">
+                    <div class="text-xs tracking-widest uppercase font-medium text-zinc-400 mb-4">Pillar II — Spatial Context</div>
+                    <h3 class="text-3xl md:text-4xl tracking-tighter font-medium text-zinc-950 mb-6 leading-tight">The gallery as an active collaborator.</h3>
+                   <p class="text-zinc-600 font-light text-base md:text-lg leading-loose max-w-2xl">
+                        We reject the traditional "white cube" gallery. We believe the exhibition space should be an active collaborator in the artwork's narrative. From the physical dimensions of a room to the precise angle of natural light, we design environments that amplify the artist's intent. When you step into our gallery, you're not just viewing art—you're stepping into an immersive, living experience.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FULL BLEED PARALLAX BREAK -->
+        <section class="relative h-[80vh] w-full overflow-hidden flex items-center justify-center">
+            <div class="absolute inset-0 bg-zinc-950 parallax-container">
+                <img src="gallery  assets/Whisk_0314d330e77421ab96e4d4d2886e3d1beg.png" alt="Void" class="parallax-img w-full h-[140%] object-cover opacity-40 grayscale mix-blend-screen origin-top">
+            </div>
+            <div class="relative z-10 text-center px-4 max-w-4xl">
+                <iconify-icon icon="solar:quote-left-linear" class="text-5xl text-white/20 mb-8"></iconify-icon>
+                <h2 class="text-2xl md:text-4xl lg:text-5xl font-light text-white leading-snug tracking-tight">
+                    "Art is not what you see, but what you make others see. We simply construct the optimal lens."
+                </h2>
+                <div class="mt-12 text-white/50 text-sm tracking-widest uppercase font-medium">The Curatorial Board</div>
+            </div>
+        </section>
+
+        <!-- PILLAR 3: SCRUB TEXT -->
+        <section class="py-48 px-4 w-full bg-[#f9fafb] flex items-center justify-center min-h-[80vh]">
+            <div id="scrub-2" class="max-w-5xl mx-auto text-center">
+                <div class="text-xs tracking-widest uppercase font-medium text-zinc-300 mb-12">Pillar III</div>
+                <h2 class="text-[clamp(2rem,5vw,5rem)] tracking-tighter font-medium text-zinc-950 leading-[1.1]">
+                    <span class="gsap-scrub-word-2 opacity-20">True</span>
+                    <span class="gsap-scrub-word-2 opacity-20">exclusivity</span>
+                    <span class="gsap-scrub-word-2 opacity-20">is</span>
+                    <span class="gsap-scrub-word-2 opacity-20">not</span>
+                    <span class="gsap-scrub-word-2 opacity-20">found</span>
+                    <span class="gsap-scrub-word-2 opacity-20">in</span>
+                    <span class="gsap-scrub-word-2 opacity-20">scarcity,</span>
+                    <span class="gsap-scrub-word-2 opacity-20">but</span>
+                    <span class="gsap-scrub-word-2 opacity-20">in</span>
+                    <span class="gsap-scrub-word-2 opacity-20">the</span>
+                    <span class="gsap-scrub-word-2 opacity-20">absolute</span>
+                    <span class="gsap-scrub-word-2 opacity-20">perfection</span>
+                    <span class="gsap-scrub-word-2 opacity-20">of</span>
+                    <span class="gsap-scrub-word-2 opacity-20">context.</span>
+                </h2>
+            </div>
+        </section>
+
+        <!-- EDITORIAL: MATERIALITY & PRESERVATION -->
+        <section class="py-32 md:py-48 px-4 w-full max-w-7xl mx-auto flex flex-col md:flex-row-reverse items-start gap-16 md:gap-32">
+            <div class="w-full md:w-1/2 sticky top-32">
+                <div class="w-full aspect-[4/5] rounded-[2rem] overflow-hidden relative group">
+                    <img src="gallery  assets/Whisk_a44b6f250381040891c42aa733043a8ddr.jpeg" alt="Materiality" class="w-full h-full object-cover grayscale-[0.4] group-hover:grayscale-0 transition-all duration-[2s]">
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 flex flex-col gap-16 py-16">
+                <div class="gsap-reveal">
+                    <div class="text-xs tracking-widest uppercase font-medium text-zinc-400 mb-4">Pillar IV — Materiality</div>
+                    <h3 class="text-3xl md:text-4xl tracking-tighter font-medium text-zinc-950 mb-6 leading-tight">Discover the unspoken language of art.</h3>
+                <p class="text-zinc-600 font-light text-base leading-tight">
+                    We believe the physical materials of a piece—the weight of bronze, the fragility of glass, the warmth of hand-worked clay—communicate on a profound level. By honoring these raw elements, we create sensory experiences that invite you to not only see, but truly feel the history and soul within every curve. Step closer and experience the true depth of the creative spirit through an intimate dialogue with medium and form.
+                </p>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- PRINCIPLES BENTO GRID -->
+        <section class="py-32 px-4 w-full max-w-7xl mx-auto border-t border-zinc-200/50">
+            <div class="mb-16">
+                <h3 class="text-3xl md:text-5xl tracking-tighter font-medium text-zinc-950">Operating Principles</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-10 rounded-[2rem] bg-zinc-950 text-white flex flex-col justify-between min-h-[20rem]">
+                    <iconify-icon icon="solar:eye-linear" class="text-3xl text-white/50"></iconify-icon>
+                    <div>
+                        <div class="text-xl font-medium tracking-tight mb-3">Observe First</div>
+                        <p class="text-white/60 text-sm font-light leading-relaxed">Before any curatorial decision, we observe. Space, light, acoustics, and the emotional temperature of a location inform every placement.</p>
+                    </div>
+                </div>
+                <div class="p-10 rounded-[2rem] bg-white border border-zinc-200 flex flex-col justify-between min-h-[20rem]">
+                    <iconify-icon icon="solar:minimalistic-magnifer-linear" class="text-3xl text-zinc-300"></iconify-icon>
+                    <div>
+                        <div class="text-xl font-medium tracking-tight mb-3 text-zinc-950">Verify Relentlessly</div>
+                        <p class="text-zinc-500 text-sm font-light leading-relaxed">Provenance, condition, market context — no assumption goes unchallenged. Our due diligence protects both artist and collector.</p>
+                    </div>
+                </div>
+                <div class="p-10 rounded-[2rem] bg-white border border-zinc-200 flex flex-col justify-between min-h-[20rem]">
+                    <iconify-icon icon="solar:hand-shake-linear" class="text-3xl text-zinc-300"></iconify-icon>
+                    <div>
+                        <div class="text-xl font-medium tracking-tight mb-3 text-zinc-950">Serve the Work</div>
+                        <p class="text-zinc-500 text-sm font-light leading-relaxed">The artwork is sovereign. Every decision — from lighting angles to catalogue typography — exists to serve its inherent narrative.</p>
+                    </div>
+                </div>
+                <div class="md:col-span-2 p-10 rounded-[2rem] bg-zinc-100 border border-zinc-200 flex flex-col justify-between min-h-[16rem]">
+                    <iconify-icon icon="solar:global-linear" class="text-3xl text-zinc-300"></iconify-icon>
+                    <div>
+                        <div class="text-xl font-medium tracking-tight mb-3 text-zinc-950">Think Generationally</div>
+                        <p class="text-zinc-500 text-sm font-light leading-relaxed max-w-xl">We do not curate for the moment. Every acquisition, every exhibition, every spatial decision is made with the understanding that art's true value compounds across decades.</p>
+                    </div>
+                </div>
+                <div class="p-10 rounded-[2rem] bg-zinc-950 text-white flex items-center justify-center min-h-[16rem] cursor-pointer group hover:bg-zinc-800 transition-colors">
+                    <a href="initiate.html" class="text-sm tracking-tight font-light flex items-center gap-2">
+                        Become a Patron
+                        <iconify-icon icon="solar:arrow-right-up-linear" class="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></iconify-icon>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="bg-zinc-950 text-white pt-32 pb-12 w-full px-4 rounded-t-[3rem] mt-[-2rem] relative z-20">
+            <div class="max-w-7xl mx-auto flex flex-col items-center justify-center text-center">
+                <div class="text-sm font-medium tracking-[0.2em] text-white/50 mb-8 uppercase">Become a Patron</div>
+                <a href="initiate.html" class="text-[clamp(3rem,10vw,10rem)] leading-none tracking-tighter font-medium mb-16 text-white hover:text-zinc-300 transition-colors cursor-pointer block">
+                    BECOME A PATRON
+                </a>
+                <div class="w-full h-[1px] bg-white/10 mb-12"></div>
+                <div class="w-full flex flex-col md:flex-row justify-between items-start gap-12 text-left">
+                    <div>
+                        <div class="text-xs tracking-[0.3rem] uppercase font-medium mb-6">A R T I F I C E</div>
+                        <p class="text-white/40 text-sm font-light max-w-xs">Architecting physical and digital environments where elite contemporary art commands absolute attention.</p>
+                    </div>
+                    <div class="flex flex-col gap-3 text-sm font-light text-white/50">
+                        <div class="text-xs tracking-widest uppercase font-medium text-white/30 mb-2">Navigate</div>
+                        <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                        <a href="exhibitions.html" class="hover:text-white transition-colors">Exhibitions</a>
+                        <a href="artists.html" class="hover:text-white transition-colors">Artists</a>
+                        <a href="archive.html" class="hover:text-white transition-colors">Archive</a>
+                    </div>
+                    <div class="flex flex-col gap-3 text-sm font-light text-white/50">
+                        <div class="text-xs tracking-widest uppercase font-medium text-white/30 mb-2">Connect</div>
+                        <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                        <a href="#" class="hover:text-white transition-colors">Artsy</a>
+                        <a href="initiate.html" class="hover:text-white transition-colors">Private Portal</a>
+                    </div>
+                    <div class="text-xs font-light text-white/30 md:text-right">
+                        © 2026 Artifice Gallery Ltd.<br>All rights reserved.
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Scrub Text Reveal 1
+            const words1 = gsap.utils.toArray('.gsap-scrub-word');
+            if(words1.length > 0) {
+                gsap.to(words1, {
+                    opacity: 1, stagger: 0.1,
+                    scrollTrigger: { trigger: "#scrub-1", start: "top 75%", end: "bottom 50%", scrub: 1.5 }
+                });
+            }
+
+            // Scrub Text Reveal 2
+            const words2 = gsap.utils.toArray('.gsap-scrub-word-2');
+            if(words2.length > 0) {
+                gsap.to(words2, {
+                    opacity: 1, stagger: 0.1,
+                    scrollTrigger: { trigger: "#scrub-2", start: "top 75%", end: "bottom 50%", scrub: 1.5 }
+                });
+            }
+
+            // Parallax
+            gsap.to(".parallax-img", {
+                yPercent: -20, ease: "none",
+                scrollTrigger: { trigger: ".parallax-container", start: "top bottom", end: "bottom top", scrub: true }
+            });
+
+            // Editorial reveals
+            gsap.utils.toArray('.gsap-reveal').forEach(el => {
+                gsap.fromTo(el,
+                    { opacity: 0, y: 60 },
+                    {
+                        opacity: 1, y: 0, duration: 1, ease: "power2.out",
+                        scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" }
+                    }
+                );
+            });
+
+            // Menu Toggle
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const menuOverlay = document.getElementById('menu-overlay');
+            menuToggle?.addEventListener('click', () => {
+                menuOverlay.classList.add('active');
+                menuOverlay.style.pointerEvents = 'auto';
+            });
+            menuClose?.addEventListener('click', () => {
+                menuOverlay.classList.remove('active');
+                menuOverlay.style.pointerEvents = 'none';
+            });
+        });
+    </script>
+
+</body></html>
